@@ -1,6 +1,14 @@
 import xarray as xr
 import yaml
 
+def delta_to_R15(delta):
+    # delta in permille
+
+    R15_AIR = 0.00367647
+    R15 = (delta/1000 + 1) * R15_AIR
+
+    return R15
+    
 def initialize(path_to_param_yaml):
     """
     Initializes a state array to input into the model from a set of parameters.
@@ -22,16 +30,16 @@ def initialize(path_to_param_yaml):
     ### retrieve initial values for concentrations and isotopes
 
     N2O_14_top_init = params['N2O_top_init']
-    N2O_15_top_alpha_init = params['N2O_top_init'] * params['R15_N2O_alpha_top_init']
+    N2O_15_top_init = params['N2O_top_init'] * delta_to_R15(params['delta15_N2O_top_init'])
     
     NO3_14_top_init = params['NO3_top_init']
-    NO3_15_top_init = params['NO3_top_init'] * params['R15_NO3_top_init']
+    NO3_15_top_init = params['NO3_top_init'] * delta_to_R15(params['delta15_NO3_top_init'])
 
     N2O_14_bottom_init = params['N2O_bottom_init']
-    N2O_15_bottom_init = params['N2O_bottom_init'] * params['R15_N2O_bottom_init']
+    N2O_15_bottom_init = params['N2O_bottom_init'] * delta_to_R15(params['delta15_N2O_bottom_init'])
     
     NO3_14_bottom_init = params['NO3_bottom_init']
-    NO3_15_bottom_init = params['NO3_bottom_init'] * params['R15_NO3_bottom_init']
+    NO3_15_bottom_init = params['NO3_bottom_init'] * delta_to_R15(params['delta15_NO3_bottom_init'])
 
     ### create state array
 
@@ -87,7 +95,7 @@ def step_forward(path_to_param_yaml, state_array, dt):
                        )
 
     next_N2O_15_top = (top_array_prev.N2O_15 
-                       + dt**2 * params['F_NH4_in'] * params['R15_NH4_in'] * params['k_nitrif_N2O'] * params['alpha_nitrif_N2O'] 
+                       + dt**2 * params['F_NH4_in'] * delta_to_R15(params['delta15_NH4_in']) * params['k_nitrif_N2O'] * params['alpha_nitrif_N2O'] 
                        + bottom_array_prev.N2O_15 * dt * params['k_mixing']
                        - top_array_prev.N2O_15 * dt * params['k_mixing']
                        )
@@ -99,7 +107,7 @@ def step_forward(path_to_param_yaml, state_array, dt):
                        )
 
     next_NO3_15_top = (top_array_prev.NO3_15 
-                       + dt**2 * params['F_NH4_in'] * params['R15_NH4_in'] * params['k_nitrif'] * params['alpha_nitrif'] 
+                       + dt**2 * params['F_NH4_in'] * delta_to_R15(params['delta15_NH4_in']) * params['k_nitrif'] * params['alpha_nitrif'] 
                        + bottom_array_prev.NO3_15 * dt * params['k_mixing']
                        - top_array_prev.NO3_15 * dt * params['k_mixing']
                        )
@@ -115,7 +123,7 @@ def step_forward(path_to_param_yaml, state_array, dt):
                           )
 
     next_N2O_15_bottom = (bottom_array_prev.N2O_15
-                          + dt**2 * params['F_NO2_in'] * params['R15_NO2_in'] * params['k_denitrif_1'] * params['alpha_denitrif_1']
+                          + dt**2 * params['F_NO2_in'] * delta_to_R15(params['delta15_NO2_in']) * params['k_denitrif_1'] * params['alpha_denitrif_1']
                           + dt * bottom_array_prev.NO3_15 * params['k_denitrif_2'] * params['alpha_denitrif_2']
                           + top_array_prev.N2O_15 * dt * params['k_mixing']
                           - dt * bottom_array_prev.N2O_15 * params['k_denitrif_3'] * params['alpha_denitrif_3'] 
@@ -131,7 +139,7 @@ def step_forward(path_to_param_yaml, state_array, dt):
 
 
     next_NO3_15_bottom = (bottom_array_prev.NO3_15 
-                          + dt * params['F_NO3_in'] * params['R15_NO3_in']
+                          + dt * params['F_NO3_in'] * delta_to_R15(params['delta15_NO3_in'])
                           + top_array_prev.NO3_15 * dt * params['k_mixing']
                           - dt * bottom_array_prev.NO3_15 * params['k_denitrif_2'] * (1/params['alpha_denitrif_2']) # make sure to include this
                           - bottom_array_prev.NO3_15 * dt * params['k_mixing']

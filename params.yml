@@ -1,37 +1,37 @@
 ### Physical mixing
 # per day
-k_mixing: 0.0005 # tuned
+k_mixing: 0.0006 # tuned
 
 ### Flux parameters
 # flux in umol/L/day
-F_NH4_in: 0.001 # tuned
-R15_NH4_in: 0.0036868 # very rough value based on 2.8 permil delta 15 suspended PN (Casciotti et al. 2008)
+F_NH4_in: 0.002 # tuned
+delta15_NH4_in: 2.8 # very rough value based on suspended PN (Casciotti et al. 2008)
 
 F_NO2_in: 0.002 # tuned
-R15_NO2_in: 0.0035824 # calculated from Kelly 2023
+delta15_NO2_in: -22.0 # Kelly 2023
 
-F_NO3_in: 0.0005 # tuned
-R15_NO3_in: 0.0037227 # calculated from Kelly 2023
+F_NO3_in: 0.0001 # tuned
+delta15_NO3_in: 16.3 # Kelly 2023
 
 ### Reaction parameters
 # k in per day
-k_nitrif: 0.0015 # rough from Casciotti and Buchwald 2012
-alpha_nitrif: 0.985 # effect on NO3 produced - Casciotti 2009
+k_nitrif: 0.0015 # rough, from Casciotti and Buchwald 2012
+alpha_nitrif: 0.985 # Casciotti 2009 - produced NO3 is depleted RELATIVE TO NH4
 
-k_nitrif_N2O: 1.5e-6 # very rough from Casciotti and Buchwald 2012 (k_nitrif/1000)
-alpha_nitrif_N2O: 1.006 # effect on N2O produced - assuming AOA only. from Santoro et al. 2011 
+k_nitrif_N2O: 1.5e-6 # very rough, from Casciotti and Buchwald 2012 (k_nitrif/1000)
+alpha_nitrif_N2O: 1.006 # assuming AOA only, from Santoro et al. 2011 via Monreal 2022 - produced N2O is enriched
 
 k_denitrif_1: 5.25e-5 # Kelly 2023
-alpha_denitrif_1: 0.985 # Bryan et al., 1983 (via Casciotti and Buchwald 2012) - effect on N2O produced
+alpha_denitrif_1: 0.978 # Toyoda et al 2005 1/(1+22/1000) - produced N2O is depleted
 
 k_denitrif_2:  3.92e-6 # Kelly 2023
-alpha_denitrif_2: 0.981 # Deutsch et al., 2004; Granger et al., 2008 (via Casciotti and Buchwald 2012) - effect on N2O produced
+alpha_denitrif_2: 0.978 # Toyoda et al 2005 1/(1+22/1000) - produced N2O is depleted
 
 k_denitrif_3:  0.004 # tuned
-alpha_denitrif_3: 0.9885 # Yamagishi et al., 2007, mean from alpha and beta - effect on leftover N2O
+alpha_denitrif_3: 0.9885 # Yamagishi et al., 2007, mean from alpha and beta (via Kelly 2023) - leftover N2O is enriched
 
 ### Initial conditions
-# umol/L for concentrations
+# umol/L for concentrations, permille vs AIR for delta values
 
 NO3_top_init: 10.7 # Kelly et al., 2023
 
@@ -41,12 +41,12 @@ NO3_bottom_init: 26.5 # Kelly et al., 2023
 
 N2O_bottom_init: 0.0924 # Kelly et al., 2023
 
-R15_NO3_top_init: 0.0037022053 # Kelly et al., 2023
+delta15_NO3_top_init: 7.0 # Kelly et al., 2023
 
-R15_N2O_top_init: 0.0037220582  # Kelly et al., 2023, mean from alpha and beta
+delta15_N2O_top_init: 6.2  # Kelly et al., 2023, mean from alpha and beta
 
-R15_NO3_bottom_init: 0.0037363965 # Kelly et al., 2023
+delta15_NO3_bottom_init: 16.3 # Kelly et al., 2023
 
-R15_N2O_bottom_init: 0.0037158082 # Kelly et al., 2023, mean from alpha and beta
+delta15_N2O_bottom_init: 5.35 # Kelly et al., 2023, mean from alpha and beta
 
 
