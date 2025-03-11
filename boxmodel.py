@@ -22,7 +22,7 @@ def initialize(path_to_param_yaml):
     ### retrieve initial values for concentrations and isotopes
 
     N2O_14_top_init = params['N2O_top_init']
-    N2O_15_top_init = params['N2O_top_init'] * params['R15_N2O_top_init']
+    N2O_15_top_alpha_init = params['N2O_top_init'] * params['R15_N2O_alpha_top_init']
     
     NO3_14_top_init = params['NO3_top_init']
     NO3_15_top_init = params['NO3_top_init'] * params['R15_NO3_top_init']
